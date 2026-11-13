@@ -1,0 +1,15 @@
+name = "uranium-store"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "uranium-store"
+database_id = "INSERISCI_QUI_ID_DATABASE"
+
+[vars]
+DISCORD_CLIENT_ID = "INSERISCI"
+DISCORD_PUBLIC_KEY = "INSERISCI"
+GUILD_ID = "INSERISCI"
+STAFF_ROLE_ID = "INSERISCI"
+ORDERS_CHANNEL_ID = "INSERISCI"

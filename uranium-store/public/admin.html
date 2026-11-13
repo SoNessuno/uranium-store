@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Staff panel – Uranium Store</title>
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+:root{--ink:#14161c;--paper:#f5f6fa;--muted:#b4b9c6;--u:#f06eb4;--s:#bcd2f2;--line:rgba(255,255,255,.16)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--ink);color:var(--paper);font:400 1rem/1.5 system-ui,sans-serif;padding:1rem clamp(1rem,4vw,3rem) 4rem}
+a{color:var(--s)} .muted{color:var(--muted)}
+header{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line);margin-bottom:1.2rem}
+h1{font-size:1.3rem} h3{font-size:1.05rem}
+.tabs{display:flex;gap:.5rem;margin-bottom:1rem}
+button,select,input,textarea{font:inherit;color:inherit;background:#0f1116;border:1px solid var(--line);border-radius:.3rem;padding:.5rem .8rem}
+button{cursor:pointer;background:#232733} button.on,button.pri{background:var(--u);color:#14161c;border-color:var(--u);font-weight:600}
+.row{border:1px solid var(--line);border-radius:.4rem;padding:.9rem 1rem;margin-bottom:.8rem;display:grid;gap:.4rem;background:rgba(255,255,255,.04)}
+.row .act{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.tag{font-size:.85rem;padding:.1rem .6rem;border-radius:2rem;background:#232733;justify-self:start}
+.tag.new{background:var(--u);color:#14161c}.tag.accepted{background:#3ba55d;color:#fff}.tag.done{background:#5865f2;color:#fff}.tag.rejected{background:#ed4245;color:#fff}
+form{display:grid;gap:.6rem;max-width:34rem;margin-bottom:1.5rem}
+label{display:grid;gap:.2rem;font-size:.95rem}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header><h1>Uranium Store · Staff</h1><div><a href="/">Site</a> · <span id="who" class="muted"></span></div></header>
+<div id="gate" hidden><p>Staff only. <a href="/api/login">Login with Discord</a> using an account with the staff role.</p></div>
+<div id="app" hidden>
+  <div class="tabs"><button id="tO" class="on">Orders</button><button id="tP">Products</button></div>
+  <section id="orders">
+    <p><select id="f"><option value="">All</option><option value="new">New</option><option value="accepted">Accepted</option><option value="done">Completed</option><option value="rejected">Rejected</option></select></p><br>
+    <div id="list"></div>
+  </section>
+  <section id="prods" hidden>
+    <form id="pf">
+      <h3 id="pt">Add product</h3>
+      <label>Name<input name="name" required maxlength="80"></label>
+      <label>Description<textarea name="description" rows="2" maxlength="300"></textarea></label>
+      <label>Price (e.g. 150 R$)<input name="price" maxlength="30"></label>
+      <label>Image URL (https)<input name="image" type="url" maxlength="500"></label>
+      <label>Order<input name="sort" type="number" value="0"></label>
+      <label><span><input name="active" type="checkbox" checked style="width:auto"> Visible in the showcase</span></label>
+      <div class="act"><button class="pri" type="submit">Save</button><button type="button" id="reset">New</button></div>
+    </form>
+    <div id="plist"></div>
+  </section>
+</div>
+<script>
+const $ = s => document.querySelector(s);
+const el = (t, p = {}, ...c) => { const e = Object.assign(document.createElement(t), p); e.append(...c); return e; };
+const api = async (p, o = {}) => {
+  const r = await fetch('/api/' + p, { headers: { 'content-type': 'application/json' }, ...o, body: o.body && JSON.stringify(o.body) });
+  const d = await r.json().catch(() => ({})); if (!r.ok) throw d; return d;
+};
+const NEXT = { new: ['accepted', 'rejected'], accepted: ['done', 'rejected'] };
+const LBL = { accepted: 'Accept', rejected: 'Reject', done: 'Mark completed' };
+
+async function loadOrders() {
+  const st = $('#f').value, rows = await api('orders' + (st ? '?status=' + st : ''));
+  $('#list').replaceChildren(...(rows.length ? rows.map(o => el('article', { className: 'row' },
+    el('h3', { textContent: `#${o.id} · ${o.product_name}` }),
+    el('span', { className: 'tag ' + o.status, textContent: o.status + (o.handler ? ' · ' + o.handler : '') }),
+    el('div', { className: 'muted', textContent: `${o.user_name} · Roblox: ${o.roblox} · ${new Date(o.created_at * 1000).toLocaleString()}` }),
+    el('div', { textContent: o.details || '—' }),
+    el('div', { className: 'act' }, ...(NEXT[o.status] || []).map(s => el('button', {
+      textContent: LBL[s], onclick: async () => { try { await api('orders/' + o.id, { method: 'PATCH', body: { status: s } }); } catch (e) { alert('Could not update: ' + (e.error || 'error')); } loadOrders(); }
+    }))))) : [el('p', { className: 'muted', textContent: 'No orders.' })]));
+}
+
+const pf = $('#pf');
+function editProduct(p) {
+  $('#pt').textContent = p ? 'Edit product #' + p.id : 'Add product'; pf.dataset.id = p ? p.id : '';
+  pf.name.value = p?.name || ''; pf.description.value = p?.description || ''; pf.price.value = p?.price || '';
+  pf.image.value = p?.image || ''; pf.sort.value = p?.sort || 0; pf.active.checked = p ? !!p.active : true;
+}
+async function loadProducts() {
+  const rows = await api('products?all=1');
+  $('#plist').replaceChildren(...rows.map(p => el('article', { className: 'row' },
+    el('h3', { textContent: `${p.name}${p.price ? ' · ' + p.price : ''}` }),
+    el('div', { className: 'muted', textContent: (p.active ? 'Visible' : 'Hidden') + (p.description ? ' · ' + p.description : '') }),
+    el('div', { className: 'act' },
+      el('button', { textContent: 'Edit', onclick: () => { editProduct(p); scrollTo(0, 0); } }),
+      el('button', { textContent: 'Delete', onclick: async () => { if (confirm('Delete "' + p.name + '"?')) { await api('products/' + p.id, { method: 'DELETE' }); loadProducts(); } } })))));
+}
+pf.onsubmit = async e => {
+  e.preventDefault();
+  try {
+    await api('products', { method: 'POST', body: { id: pf.dataset.id || undefined, name: pf.name.value, description: pf.description.value, price: pf.price.value, image: pf.image.value, sort: pf.sort.value, active: pf.active.checked } });
+    editProduct(null); loadProducts();
+  } catch (err) { alert('Could not save: ' + (err.error || 'error')); }
+};
+$('#reset').onclick = () => editProduct(null);
+$('#f').onchange = loadOrders;
+const tab = o => { $('#orders').hidden = !o; $('#prods').hidden = o; $('#tO').classList.toggle('on', o); $('#tP').classList.toggle('on', !o); o ? loadOrders() : loadProducts(); };
+$('#tO').onclick = () => tab(true); $('#tP').onclick = () => tab(false);
+
+api('me').then(({ user }) => {
+  if (!user?.staff) { $('#gate').hidden = false; return; }
+  $('#who').textContent = user.name; $('#app').hidden = false; loadOrders(); setInterval(() => { if (!$('#orders').hidden) loadOrders(); }, 30000);
+}).catch(() => { $('#gate').hidden = false; });
+</script>
+</body>
+</html>
