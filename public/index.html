@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uranium Store – Liveries and Uniforms for ER:LC</title>
+<meta name="description" content="Uranium Store: the international Discord store for ER:LC liveries and uniforms. Low prices, simple rules, Italian community.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14161c; --paper:#f5f6fa; --muted:#b4b9c6;
+  --u:#f06eb4; --s:#bcd2f2; --line:rgba(255,255,255,.14);
+  --serif:'Playfair Display',Georgia,serif; --sans:'Work Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font:400 1.0625rem/1.65 var(--sans);overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--s);outline-offset:3px}
+
+/* Interactive background: the logo, blurred, drifting with pointer / tilt */
+.bg{position:fixed;inset:-6%;z-index:-2;background:url(logo.png) center/cover no-repeat;
+  filter:blur(7px) saturate(1.1);transform:translate3d(var(--x,0),var(--y,0),0) scale(1.08);
+  transition:transform .25s ease-out}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,22,28,.55),rgba(20,22,28,.88) 70%)}
+.glow{position:fixed;z-index:-1;width:34rem;height:34rem;left:0;top:0;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(240,110,180,.22),transparent 65%);
+  transform:translate(calc(var(--gx,50vw) - 50%),calc(var(--gy,30vh) - 50%))}
+
+header{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem clamp(1rem,4vw,3rem)}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;font:700 1.25rem var(--serif)}
+.brand img{width:2.5rem;height:2.5rem;border-radius:.4rem;object-fit:cover}
+nav{display:flex;align-items:center;gap:1.4rem;font-weight:500}
+nav a{text-decoration:none;color:var(--muted)} nav a:hover{color:var(--paper)}
+.lang{background:none;border:1px solid var(--line);color:var(--paper);border-radius:2rem;padding:.3rem .8rem;font:inherit;font-size:.9rem;cursor:pointer}
+
+.hero{min-height:82vh;display:grid;align-content:center;justify-items:start;gap:1.4rem;padding:2rem clamp(1rem,6vw,5rem)}
+.tiles{display:flex;gap:.6rem}
+.tile{width:4.6rem;aspect-ratio:1;padding:.35rem .5rem;border:2px solid #14161c;color:#14161c;display:flex;flex-direction:column;justify-content:space-between;
+  font:500 .7rem/1 var(--sans);transition:transform .3s}
+.tile b{font:500 2.6rem/1 var(--serif);text-align:center}
+.tile.u{background:var(--u)} .tile.s{background:var(--s)}
+.tile:hover{transform:translateY(-6px) rotate(-3deg)}
+h1{font:700 clamp(2.8rem,9vw,6.5rem)/.98 var(--serif);letter-spacing:-.01em}
+h1 em{font-style:italic;font-weight:600;color:var(--u)}
+.lead{max-width:34rem;color:var(--muted);font-size:1.2rem}
+.btns{display:flex;flex-wrap:wrap;gap:.8rem}
+.btn{display:inline-block;padding:.85rem 1.6rem;border-radius:.3rem;font-weight:600;text-decoration:none;background:var(--u);color:#14161c;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px);background:#ff8ac6}
+.btn.ghost{background:none;color:var(--paper);border:1.5px solid var(--line)}
+.btn.ghost:hover{background:rgba(255,255,255,.08)}
+
+section{padding:4.5rem clamp(1rem,6vw,5rem);max-width:70rem}
+h2{font:700 clamp(1.9rem,4.5vw,3rem)/1.1 var(--serif);margin-bottom:1.6rem}
+.about{display:grid;gap:2.2rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.about h3{font:600 1.35rem var(--serif);margin-bottom:.3rem;color:var(--s)}
+.about p{color:var(--muted)}
+.band{background:rgba(20,22,28,.72);backdrop-filter:blur(6px);border-block:1px solid var(--line);max-width:none}
+.band .in{max-width:70rem}
+.rules{list-style:none;padding:0;display:grid;gap:.9rem;max-width:36rem}
+.rules li{padding-left:1.4rem;position:relative}
+.rules li::before{content:"";position:absolute;left:0;top:.7em;width:.6rem;height:.6rem;background:var(--u)}
+
+.grid{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr))}
+.card{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:.4rem;overflow:hidden}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.card div{padding:1rem}
+.card h3{font:600 1.15rem var(--serif)}
+.card p{color:var(--muted);font-size:.95rem}
+.card .price{color:var(--u);font-weight:600;margin-top:.4rem}
+.empty{border:1.5px dashed var(--line);border-radius:.4rem;padding:2.2rem;max-width:36rem;color:var(--muted)}
+.empty strong{display:block;font:600 1.4rem var(--serif);color:var(--paper);margin-bottom:.3rem}
+
+.partner{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.2rem}
+.partner p{font:500 1.7rem var(--serif)}
+footer{padding:2.5rem clamp(1rem,6vw,5rem) 3rem;color:var(--muted);font-size:.95rem;border-top:1px solid var(--line)}
+
+button.btn{border:0;font:inherit;font-weight:600;cursor:pointer}
+#auth{display:flex;align-items:center;gap:1rem} #auth a{display:inline-block} #auth .btn{padding:.45rem 1rem;color:#14161c}
+.card .btn{margin-top:.8rem;padding:.55rem 1.1rem}
+dialog{background:#1b1e26;color:var(--paper);border:1px solid var(--line);border-radius:.4rem;padding:1.5rem;width:min(28rem,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+dialog h2{font-size:1.6rem;margin-bottom:.4rem}
+dialog label{display:block;margin-top:.9rem;font-weight:500}
+dialog input,dialog textarea{width:100%;margin-top:.3rem;padding:.7rem;background:#0f1116;color:inherit;border:1px solid var(--line);border-radius:.3rem;font:inherit}
+#formMsg{margin-top:.8rem;color:var(--s)} dialog .btns{margin-top:1rem}
+@media (max-width:640px){nav a{display:none}}
+@media (prefers-reduced-motion:reduce){.bg{transition:none}.tile,.btn{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="bg" id="bg" aria-hidden="true"></div>
+<div class="glow" id="glow" aria-hidden="true"></div>
+
+<header>
+  <a class="brand" href="#top"><img src="logo.png" alt="">Uranium Store</a>
+  <nav>
+    <a href="#about" data-i18n="nav_about">About</a>
+    <a href="#shop" data-i18n="nav_shop">Showcase</a>
+    <a href="#rules" data-i18n="nav_rules">Rules</a>
+    <button class="lang" id="lang" type="button" aria-label="Switch language">IT</button>
+    <span id="auth"></span>
+  </nav>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="tiles" aria-hidden="true">
+      <div class="tile u"><span>92</span><b>U</b><span>uranium</span></div>
+      <div class="tile s"><span>16</span><b>S</b><span>Sulfur</span></div>
+    </div>
+    <h1><em>US</em><br>Uranium Store</h1>
+    <p class="lead" data-i18n="lead">The international store for ER:LC liveries and uniforms. Built by an Italian server, open to everyone.</p>
+    <div class="btns">
+      <a class="btn" href="https://discord.gg/2p333Sz94T" target="_blank" rel="noopener" data-i18n="join">Join our Discord</a>
+      <a class="btn ghost" href="#shop" data-i18n="see">See the showcase</a>
+    </div>
+  </div>
+
+  <section id="about">
+    <h2 data-i18n="about_h">Welcome to Uranium Store</h2>
+    <div class="about">
+      <div><h3 data-i18n="a1h">Liveries and uniforms</h3><p data-i18n="a1p">We sell liveries and uniforms for Emergency Response: Liberty County.</p></div>
+      <div><h3 data-i18n="a2h">A big community</h3><p data-i18n="a2p">We want to grow into a large, friendly community of players and creators.</p></div>
+      <div><h3 data-i18n="a3h">Italian at heart</h3><p data-i18n="a3p">We are an Italian server, with an international store for everyone.</p></div>
+    </div>
+  </section>
+
+  <section class="band" id="rules"><div class="in">
+    <h2 data-i18n="rules_h">Simple rules, low prices</h2>
+    <ul class="rules">
+      <li data-i18n="r1">The rules are simple.</li>
+      <li data-i18n="r2">Prices are low, so everyone can afford them.</li>
+    </ul>
+  </div></section>
+
+  <section id="shop">
+    <h2 data-i18n="shop_h">Showcase</h2>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty"><strong data-i18n="e_h">Showcase coming soon</strong><span data-i18n="e_p">New liveries and uniforms are being added. Join the Discord to see them first.</span></div>
+  </section>
+
+  <section>
+    <h2 data-i18n="aff_h">Affiliated with</h2>
+    <div class="partner"><p>Egg RolePlay™️ ER:LC</p><span data-i18n="aff_p">and various collaborations.</span></div>
+  </section>
+</main>
+
+<footer>© <span id="y"></span> Uranium Store · 🇮🇹 / 🇺🇸 · <a href="https://discord.gg/2p333Sz94T" target="_blank" rel="noopener">discord.gg/2p333Sz94T</a></footer>
+
+<dialog id="dlg"><form id="orderForm">
+  <h2 id="dlgTitle"></h2>
+  <label><span data-i18n="l_roblox">Roblox username</span><input name="roblox" required pattern="[A-Za-z0-9_]{3,20}" maxlength="20" autocomplete="off"></label>
+  <label><span data-i18n="l_details">Details (vehicle, colors, notes)</span><textarea name="details" rows="4" maxlength="500"></textarea></label>
+  <p id="formMsg" role="status"></p>
+  <div class="btns"><button class="btn" type="submit" data-i18n="send">Send order</button><button class="btn ghost" type="button" onclick="dlg.close()" data-i18n="close">Close</button></div>
+</form></dialog>
+
+<script>
+// ---- Session + showcase (loaded from the database)
+const L = (en, it) => lang === 'it' ? it : en;
+let me = null, products = [];
+const grid = document.getElementById('grid'), emptyBox = document.getElementById('empty'), authBox = document.getElementById('auth');
+const dlg = document.getElementById('dlg'), form = document.getElementById('orderForm'), formMsg = document.getElementById('formMsg');
+const mk = (t, p = {}, ...c) => { const e = Object.assign(document.createElement(t), p); e.append(...c); return e; };
+function openOrder(p) {
+  if (!me) { location.href = '/api/login'; return; }
+  form.dataset.pid = p.id; document.getElementById('dlgTitle').textContent = p.name; formMsg.textContent = ''; dlg.showModal();
+}
+function renderAll() {
+  authBox.replaceChildren();
+  if (me) {
+    if (me.staff) authBox.append(mk('a', { href: '/admin', textContent: L('Staff panel', 'Pannello staff') }));
+    authBox.append(mk('a', { href: '/api/logout', textContent: me.name + ' · ' + L('Log out', 'Esci') }));
+  } else authBox.append(mk('a', { className: 'btn', href: '/api/login', textContent: L('Login with Discord', 'Accedi con Discord') }));
+  grid.replaceChildren(...products.map(p => mk('article', { className: 'card' },
+    ...(p.image ? [mk('img', { src: p.image, alt: p.name, loading: 'lazy' })] : []),
+    mk('div', {}, mk('h3', { textContent: p.name }), mk('p', { textContent: p.description || '' }),
+      mk('p', { className: 'price', textContent: p.price || '' }),
+      mk('button', { className: 'btn', type: 'button', textContent: L('Order', 'Ordina'), onclick: () => openOrder(p) })))));
+  emptyBox.hidden = products.length > 0;
+}
+const ERR = { roblox: ['Invalid Roblox username (3-20 letters, numbers or _).', 'Username Roblox non valido (3-20 lettere, numeri o _).'],
+  limit: ['You already have 5 open orders.', 'Hai già 5 ordini aperti.'], login: ['Please log in again.', 'Rifai il login.'] };
+form.onsubmit = async e => {
+  e.preventDefault(); const b = form.querySelector('[type=submit]'); b.disabled = true;
+  try {
+    const r = await fetch('/api/orders', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ product_id: +form.dataset.pid, roblox: form.roblox.value, details: form.details.value }) });
+    const d = await r.json(); if (!r.ok) throw d;
+    formMsg.textContent = L(`Order #${d.id} sent! You will be tagged on Discord.`, `Ordine #${d.id} inviato! Ti taggheremo su Discord.`); form.reset();
+  } catch (err) { const m = ERR[err.error]; formMsg.textContent = m ? L(...m) : L('Something went wrong, try again.', 'Qualcosa è andato storto, riprova.'); }
+  b.disabled = false;
+};
+Promise.all([fetch('/api/me').then(r => r.json()), fetch('/api/products').then(r => r.json())])
+  .then(([m, p]) => { me = m.user; products = p; renderAll(); }).catch(renderAll);
+
+// ---- Interactive background (pointer on desktop, tilt on phones)
+const root = document.documentElement, still = matchMedia('(prefers-reduced-motion:reduce)').matches;
+if (!still) {
+  addEventListener('pointermove', e => {
+    const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+    root.style.setProperty('--x', (-nx * 40) + 'px'); root.style.setProperty('--y', (-ny * 40) + 'px');
+    root.style.setProperty('--gx', e.clientX + 'px'); root.style.setProperty('--gy', e.clientY + 'px');
+  });
+  addEventListener('deviceorientation', e => {
+    if (e.gamma == null) return;
+    root.style.setProperty('--x', (-Math.max(-30, Math.min(30, e.gamma)) * 1.2) + 'px');
+    root.style.setProperty('--y', (-Math.max(-30, Math.min(30, (e.beta || 0) - 45)) * 1.2) + 'px');
+  });
+}
+
+// ---- Language toggle (EN / IT)
+const T = {
+  it: {nav_about:'Chi siamo',nav_shop:'Vetrina',nav_rules:'Regole',
+    lead:'Lo store internazionale di livree e uniformi per ER:LC. Nato da un server italiano, aperto a tutti.',
+    join:'Entra su Discord',see:'Vai alla vetrina',about_h:'Benvenuto su Uranium Store',
+    a1h:'Livree e uniformi',a1p:'Vendiamo livree e uniformi per Emergency Response: Liberty County.',
+    a2h:'Una grande community',a2p:'Vogliamo crescere fino a diventare una community grande e accogliente.',
+    a3h:'Italiani nel cuore',a3p:'Siamo un server italiano, con uno store internazionale per tutti.',
+    rules_h:'Regole semplici, prezzi bassi',r1:'Le regole sono semplici.',r2:'I prezzi sono bassi, così tutti possono permetterseli.',
+    shop_h:'Vetrina',e_h:'Vetrina in arrivo',e_p:'Stiamo aggiungendo nuove livree e uniformi. Entra su Discord per vederle per primo.',
+    aff_h:'In affiliazione con',aff_p:'e varie collaborazioni.',
+    l_roblox:'Username Roblox',l_details:'Dettagli (veicolo, colori, note)',send:'Invia ordine',close:'Chiudi'}
+};
+const base = {}; document.querySelectorAll('[data-i18n]').forEach(el => base[el.dataset.i18n] = el.textContent);
+let lang = 'en'; const btn = document.getElementById('lang');
+btn.onclick = () => {
+  lang = lang === 'en' ? 'it' : 'en';
+  document.documentElement.lang = lang; btn.textContent = lang === 'en' ? 'IT' : 'EN';
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = lang === 'en' ? base[el.dataset.i18n] : T.it[el.dataset.i18n]);
+  renderAll();
+};
+document.getElementById('y').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
