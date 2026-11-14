@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Staff panel – Uranium Store</title>
+<link rel="icon" type="image/png" href="/assets/img/logo.png">
+<link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body>
+<header><h1>Uranium Store · Staff</h1><div><a href="/">Site</a> · <span id="who" class="muted"></span></div></header>
+<div id="gate" hidden><p>Staff only. <a href="/api/login">Login with Discord</a> using an account with the staff role.</p></div>
+<div id="app" hidden>
+  <div class="tabs"><button id="tO" class="on">Orders</button><button id="tP">Products</button></div>
+  <section id="orders">
+    <p><select id="f"><option value="">All</option><option value="new">New</option><option value="accepted">Accepted</option><option value="done">Completed</option><option value="rejected">Rejected</option></select></p><br>
+    <div id="list"></div>
+  </section>
+  <section id="prods" hidden>
+    <form id="pf">
+      <h3 id="pt">Add product</h3>
+      <label>Name<input name="name" required maxlength="80"></label>
+      <label>Description<textarea name="description" rows="2" maxlength="300"></textarea></label>
+      <label>Price (e.g. 150 R$)<input name="price" maxlength="30"></label>
+      <label>Image URL (https)<input name="image" type="url" maxlength="500"></label>
+      <label>Order<input name="sort" type="number" value="0"></label>
+      <label class="chk"><span><input name="active" type="checkbox" checked> Visible in the showcase</span></label>
+      <div class="act"><button class="pri" type="submit">Save</button><button type="button" id="reset">New</button></div>
+    </form>
+    <div id="plist"></div>
+  </section>
+</div>
+<script type="module" src="/assets/js/admin/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+/* Reusable components: buttons, cards, dialog, orders list */
+.btns{display:flex;flex-wrap:wrap;gap:.8rem}
+.btn{display:inline-block;padding:.85rem 1.6rem;border-radius:.3rem;font-weight:600;text-decoration:none;background:var(--u);color:#14161c;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px);background:#ff8ac6}
+.btn.ghost{background:none;color:var(--paper);border:1.5px solid var(--line)}
+.btn.ghost:hover{background:rgba(255,255,255,.08)}
+.grid{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr))}
+.card{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:.4rem;overflow:hidden}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.card div{padding:1rem}
+.card h3{font:600 1.15rem var(--serif)}
+.card p{color:var(--muted);font-size:.95rem}
+.card .price{color:var(--u);font-weight:600;margin-top:.4rem}
+.empty{border:1.5px dashed var(--line);border-radius:.4rem;padding:2.2rem;max-width:36rem;color:var(--muted)}
+.empty strong{display:block;font:600 1.4rem var(--serif);color:var(--paper);margin-bottom:.3rem}
+button.btn{border:0;font:inherit;font-weight:600;cursor:pointer}
+#auth{display:flex;align-items:center;gap:1rem}
+#auth a{display:inline-block}
+#auth .btn{padding:.45rem 1rem;color:#14161c}
+.card .btn{margin-top:.8rem;padding:.55rem 1.1rem}
+dialog{background:#1b1e26;color:var(--paper);border:1px solid var(--line);border-radius:.4rem;padding:1.5rem;width:min(28rem,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+dialog h2{font-size:1.6rem;margin-bottom:.4rem}
+dialog label{display:block;margin-top:.9rem;font-weight:500}
+dialog input,dialog textarea{width:100%;margin-top:.3rem;padding:.7rem;background:#0f1116;color:inherit;border:1px solid var(--line);border-radius:.3rem;font:inherit}
+.form-msg{margin-top:.8rem;color:var(--s)}
+dialog .btns{margin-top:1rem}
+@media (prefers-reduced-motion:reduce){.bg{transition:none}.tile,.btn{transition:none}html{scroll-behavior:auto}}
+.row{border:1px solid var(--line);border-radius:.4rem;padding:.9rem 1rem;margin-bottom:.8rem;display:grid;gap:.4rem;background:rgba(20,22,28,.7)}
+.tag{font-size:.85rem;padding:.1rem .6rem;border-radius:2rem;background:#232733;justify-self:start}
+.tag.new{background:var(--u);color:#14161c}.tag.accepted{background:#3ba55d;color:#fff}.tag.done{background:#5865f2;color:#fff}.tag.rejected{background:#ed4245;color:#fff}
+.muted{color:var(--muted)}
+[hidden]{display:none!important}

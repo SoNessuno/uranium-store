@@ -1,0 +1,11 @@
+/* Design tokens, reset and base elements */
+:root{
+  --ink:#14161c; --paper:#f5f6fa; --muted:#b4b9c6;
+  --u:#f06eb4; --s:#bcd2f2; --line:rgba(255,255,255,.14);
+  --serif:'Playfair Display',Georgia,serif; --sans:'Work Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font:400 1.0625rem/1.65 var(--sans);overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--s);outline-offset:3px}

@@ -1,0 +1,18 @@
+/* Staff panel */
+:root{--ink:#14161c;--paper:#f5f6fa;--muted:#b4b9c6;--u:#f06eb4;--s:#bcd2f2;--line:rgba(255,255,255,.16)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--ink);color:var(--paper);font:400 1rem/1.5 system-ui,sans-serif;padding:1rem clamp(1rem,4vw,3rem) 4rem}
+a{color:var(--s)} .muted{color:var(--muted)}
+header{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line);margin-bottom:1.2rem}
+h1{font-size:1.3rem} h3{font-size:1.05rem}
+.tabs{display:flex;gap:.5rem;margin-bottom:1rem}
+button,select,input,textarea{font:inherit;color:inherit;background:#0f1116;border:1px solid var(--line);border-radius:.3rem;padding:.5rem .8rem}
+button{cursor:pointer;background:#232733} button.on,button.pri{background:var(--u);color:#14161c;border-color:var(--u);font-weight:600}
+.row{border:1px solid var(--line);border-radius:.4rem;padding:.9rem 1rem;margin-bottom:.8rem;display:grid;gap:.4rem;background:rgba(255,255,255,.04)}
+.row .act{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.tag{font-size:.85rem;padding:.1rem .6rem;border-radius:2rem;background:#232733;justify-self:start}
+.tag.new{background:var(--u);color:#14161c}.tag.accepted{background:#3ba55d;color:#fff}.tag.done{background:#5865f2;color:#fff}.tag.rejected{background:#ed4245;color:#fff}
+form{display:grid;gap:.6rem;max-width:34rem;margin-bottom:1.5rem}
+label{display:grid;gap:.2rem;font-size:.95rem}
+[hidden]{display:none!important}
+.chk input{width:auto}
