@@ -4,5 +4,5 @@ pages_build_output_dir = "public"
 
 [vars]
 API_ORIGIN = "https://api.naplesitalyrp.it"
-Segreto: 
+[Segreto] 
 PROXY_SECRET = c1570d7d14d6b76d3e2f100995a2ee07f995b0d9160b8b703924d675c87b68fb
