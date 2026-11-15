@@ -9,3 +9,13 @@ export async function api(path, { method = 'GET', body } = {}) {
 let mePromise;
 // Current user (or null), fetched once per page.
 export const getMe = () => (mePromise ??= api('me').then(d => d.user).catch(() => null));
+
+// Uploads one image (staff only) and returns its URL, e.g. /api/uploads/<name>.png
+export async function upload(file) {
+  const form = new FormData();
+  form.append('file', file);
+  const res = await fetch('/api/uploads', { method: 'POST', body: form });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw Object.assign(new Error(data.error || 'error'), { code: data.error, status: res.status });
+  return data.url;
+}

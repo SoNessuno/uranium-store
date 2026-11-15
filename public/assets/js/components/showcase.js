@@ -1,6 +1,7 @@
 import { api } from '../core/api.js';
 import { productCard } from './product-card.js';
 import { openOrder } from './order-dialog.js';
+import { reveal } from '../effects/motion.js';
 
 // Loads the products and renders them into `grid` (re-rendered on language change).
 export async function mountShowcase(grid, emptyBox, me, limit = Infinity) {
@@ -8,6 +9,7 @@ export async function mountShowcase(grid, emptyBox, me, limit = Infinity) {
   const draw = () => {
     grid.replaceChildren(...items.map(p => productCard(p, item => openOrder(item, me))));
     emptyBox.hidden = items.length > 0;
+    reveal(grid, '.card');
   };
   draw();
   document.addEventListener('langchange', draw);

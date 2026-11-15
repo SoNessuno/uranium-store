@@ -3,6 +3,7 @@ import { initLayout } from '../components/layout.js';
 import { el, $ } from '../core/dom.js';
 import { api } from '../core/api.js';
 import { L } from '../core/i18n.js';
+import { reveal } from '../effects/motion.js';
 
 const STATUS = { new: ['New', 'Nuovo'], accepted: ['Accepted', 'Accettato'], done: ['Completed', 'Completato'], rejected: ['Rejected', 'Rifiutato'] };
 startBackground();
@@ -21,6 +22,7 @@ async function draw() {
     el('span', { className: 'tag ' + o.status, textContent: L(...STATUS[o.status]) }),
     el('div', { className: 'muted', textContent: new Date(o.created_at * 1000).toLocaleString() })))
     : [el('p', { className: 'muted', textContent: L('No orders yet.', 'Nessun ordine ancora.') })]));
+  reveal(root, '.row');
 }
 draw();
 document.addEventListener('langchange', draw);

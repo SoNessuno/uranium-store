@@ -1,8 +1,9 @@
 import { el, $ } from '../core/dom.js';
 import { getMe } from '../core/api.js';
 import { applyI18n, toggleLang, getLang, L } from '../core/i18n.js';
+import { initMotion } from '../effects/motion.js';
 
-const NAV = [['/', 'nav_home', 'Home'], ['/shop', 'nav_shop', 'Showcase'], ['/how-it-works', 'nav_how', 'How it works'], ['/orders', 'nav_orders', 'My orders']];
+const NAV = [['/', 'nav_home', 'Home'], ['/shop', 'nav_shop', 'Showcase'], ['/prices', 'nav_prices', 'Prices'], ['/how-it-works', 'nav_how', 'How it works'], ['/orders', 'nav_orders', 'My orders']];
 
 // Renders the shared header and footer; returns the current user (or null).
 export async function initLayout() {
@@ -30,5 +31,6 @@ export async function initLayout() {
   draw();
   document.addEventListener('langchange', draw);
   applyI18n();
+  initMotion();
   return me;
 }

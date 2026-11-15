@@ -1,0 +1,69 @@
+/* Motion: entrance animations, hover effects, floating symbols, photo gallery.
+   Everything is switched off for visitors who prefer reduced motion. */
+@keyframes rise{from{opacity:0;translate:0 24px}to{opacity:1;translate:0 0}}
+@keyframes float{0%,100%{translate:0 0;rotate:-2deg}50%{translate:0 -12px;rotate:2deg}}
+@keyframes shimmer{to{background-position:200% center}}
+@keyframes drift{from{transform:translateY(0) rotate(0)}to{transform:translateY(-125vh) rotate(25deg)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;scale:.96}to{opacity:1;scale:1}}
+@keyframes sheen{from{translate:-120% 0}to{translate:320% 0}}
+
+body{animation:fadein .5s ease both}
+.hero>*{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero>:nth-child(2){animation-delay:.12s}.hero>:nth-child(3){animation-delay:.24s}.hero>:nth-child(4){animation-delay:.36s}
+.tile.u{animation:float 6s ease-in-out infinite}
+.tile.s{animation:float 7s ease-in-out -2.5s infinite}
+h1 em{background:linear-gradient(90deg,var(--u),#ffd1ea,var(--s),var(--u));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 6s linear infinite}
+
+/* scroll reveal (classes are added by effects/motion.js) */
+.reveal{opacity:0}
+.reveal.in{animation:rise .7s cubic-bezier(.2,.7,.2,1) var(--delay,0ms) both}
+
+/* navigation */
+nav>a{position:relative}
+nav>a::after{content:"";position:absolute;left:0;bottom:-5px;height:2px;width:100%;background:var(--u);scale:0 1;transform-origin:left;transition:scale .25s ease}
+nav>a:hover::after,nav>a.active::after{scale:1 1}
+nav a.active{border-bottom:0}
+
+/* buttons */
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;inset:0 auto 0 0;width:35%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);translate:-120% 0;pointer-events:none}
+.btn:hover::after{animation:sheen .7s ease}
+
+/* cards with 3D tilt (the tilt variables are set by product-card.js) */
+.card{transform:perspective(800px) translateY(var(--lift,0)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease,box-shadow .3s ease,border-color .3s ease;will-change:transform}
+.card:hover{--lift:-6px;border-color:rgba(240,110,180,.55);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.row{transition:border-color .3s ease,background .3s ease}
+.row:hover{border-color:rgba(240,110,180,.45)}
+
+/* product photos: stacked, cross-fading */
+.card .media{position:relative;aspect-ratio:16/10;overflow:hidden;cursor:zoom-in;background:#0f1116;padding:0}
+.media img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;opacity:0;transition:opacity .5s ease,transform .8s ease}
+.media img.on{opacity:1}
+.card:hover .media img.on{transform:scale(1.07)}
+.media .badge{position:absolute;top:.6rem;right:.6rem;padding:.15rem .6rem;border-radius:2rem;font-size:.8rem;background:rgba(20,22,28,.75);backdrop-filter:blur(4px)}
+.card .dots{position:absolute;bottom:.55rem;left:0;right:0;display:flex;justify-content:center;gap:.35rem;padding:0}
+.dots i{width:.45rem;height:.45rem;border-radius:50%;background:rgba(255,255,255,.45);transition:background .3s ease,scale .3s ease}
+.dots i.on{background:var(--u);scale:1.35}
+
+/* photo viewer */
+dialog.gallery{width:min(60rem,94vw);padding:0;background:#0b0d12;overflow:hidden}
+dialog.gallery[open]{animation:pop .25s ease both}
+.gallery .stage{position:relative;display:grid;place-items:center;min-height:50vh;max-height:85vh;touch-action:pan-y}
+.gallery .stage img{max-width:100%;max-height:85vh;object-fit:contain;animation:fadein .35s ease}
+.gallery button{position:absolute;width:2.6rem;height:2.6rem;border-radius:50%;border:1px solid var(--line);background:rgba(20,22,28,.75);color:var(--paper);font-size:1.4rem;line-height:1;cursor:pointer;transition:background .2s ease}
+.gallery button:hover{background:var(--u);color:#14161c}
+.gallery .prev{left:.8rem;top:50%;translate:0 -50%}
+.gallery .next{right:.8rem;top:50%;translate:0 -50%}
+.gallery .close{top:.7rem;right:.7rem;font-size:1.1rem}
+.gallery .count{position:absolute;bottom:.7rem;left:50%;translate:-50% 0;padding:.15rem .7rem;border-radius:2rem;font-size:.85rem;background:rgba(20,22,28,.75)}
+
+/* drifting element symbols in the background */
+.particles{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.particles span{position:absolute;bottom:-3rem;left:var(--x);font:500 var(--s) var(--serif);color:rgba(240,110,180,.16);animation:drift var(--t) linear var(--d) infinite}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1}
+  .particles{display:none}
+}

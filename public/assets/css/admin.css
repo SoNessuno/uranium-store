@@ -16,3 +16,12 @@ form{display:grid;gap:.6rem;max-width:34rem;margin-bottom:1.5rem}
 label{display:grid;gap:.2rem;font-size:.95rem}
 [hidden]{display:none!important}
 .chk input{width:auto}
+.imgfield{display:grid;gap:.5rem}
+.imgs{display:flex;flex-wrap:wrap;gap:.6rem}
+.thumb{position:relative;width:6.5rem;aspect-ratio:1;border:1px solid var(--line);border-radius:.3rem;overflow:hidden;background:#0f1116}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .tools{position:absolute;inset:auto 0 0 0;display:flex;justify-content:space-between;gap:.2rem;padding:.2rem;background:rgba(0,0,0,.65)}
+.thumb .tools button{padding:.1rem .5rem}
+.thumb .cover{font-size:.75rem;color:var(--u);align-self:center;padding-left:.3rem}
+.filebtn{display:inline-block;padding:.5rem .8rem;border:1px solid var(--line);border-radius:.3rem;background:#232733;cursor:pointer}
+.minis{display:flex;gap:.4rem}.minis img{width:3rem;height:3rem;object-fit:cover;border-radius:.25rem}
